@@ -10,7 +10,7 @@ namespace Bicep.Core.Syntax
 {
     public static class SyntaxExtensions
     {
-        public static IReadOnlyList<IDiagnostic> GetParseDiagnostics(this SyntaxBase syntax)
+        public static IEnumerable<IDiagnostic> GetParseDiagnostics(this SyntaxBase syntax)
         {
             var diagnosticWriter = ToListDiagnosticWriter.Create();
             var parseErrorVisitor = new ParseDiagnosticsVisitor(diagnosticWriter);

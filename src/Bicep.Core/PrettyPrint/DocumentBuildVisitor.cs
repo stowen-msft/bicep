@@ -376,7 +376,7 @@ namespace Bicep.Core.PrettyPrint
 
         private void BuildStatement(SyntaxBase syntax, Action visitAction)
         {
-            if (syntax.GetParseDiagnostics().Count > 0)
+            if (syntax.GetParseDiagnostics().Any())
             {
                 this.visitingBrokenStatement = true;
                 visitAction();

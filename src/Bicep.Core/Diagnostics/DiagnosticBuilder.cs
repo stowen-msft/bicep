@@ -1151,6 +1151,11 @@ namespace Bicep.Core.Diagnostics
                 TextSpan,
                 "BCP193",
                 $"The specified OCI artifact reference \"{badRef}\" is not valid. Specify a reference in the format of \"oci:<artifact uri>:<tag>\".");
+
+            public ErrorDiagnostic ResourceParentIsNotResourceType() => new(
+                TextSpan,
+                "BCP194",
+                $"Invalid \"{LanguageConstants.ResourceParentPropertyName}\" property value. Only expressions of type \"{LanguageConstants.ResourceKeyword}\" may be specified.");
         }
 
         public static DiagnosticBuilderInternal ForPosition(TextSpan span)

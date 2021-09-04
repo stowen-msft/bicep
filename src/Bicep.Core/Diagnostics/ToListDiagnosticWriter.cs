@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Bicep.Core.Diagnostics
 {
-    public class ToListDiagnosticWriter : IDiagnosticWriter
+    public class ToListDiagnosticWriter : IDiagnosticWriter, IDiagnosticSource
     {
         private readonly List<IDiagnostic> diagnostics;
 
@@ -20,6 +21,6 @@ namespace Bicep.Core.Diagnostics
         public void Write(IDiagnostic diagnostic)
             => diagnostics.Add(diagnostic);
 
-        public IReadOnlyList<IDiagnostic> GetDiagnostics() => diagnostics;
+        public IEnumerable<IDiagnostic> GetDiagnostics() => diagnostics.ToImmutableArray();
     }
 }

@@ -32,7 +32,7 @@ namespace Bicep.Core.Emit
             DetectUnexpectedModuleLoopInvariantProperties(model, diagnosticWriter);
             DetectUnsupportedModuleParameterAssignments(model, diagnosticWriter);
 
-            return new EmitLimitationInfo(diagnosticWriter.GetDiagnostics(), moduleScopeData, resourceScopeData);
+            return new EmitLimitationInfo(diagnosticWriter.GetDiagnostics().ToList(), moduleScopeData, resourceScopeData);
         }
 
         private static void DetectDuplicateNames(SemanticModel semanticModel, IDiagnosticWriter diagnosticWriter, ImmutableDictionary<ResourceMetadata, ScopeHelper.ScopeData> resourceScopeData, ImmutableDictionary<ModuleSymbol, ScopeHelper.ScopeData> moduleScopeData)

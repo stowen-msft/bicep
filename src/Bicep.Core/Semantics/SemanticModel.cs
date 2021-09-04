@@ -138,8 +138,7 @@ namespace Bicep.Core.Semantics
         /// <summary>
         /// Gets all the semantic diagnostics unsorted. Does not include parser and lexer diagnostics.
         /// </summary>
-        /// <returns></returns>
-        public IReadOnlyList<IDiagnostic> GetSemanticDiagnostics()
+        public IEnumerable<IDiagnostic> GetSemanticDiagnostics()
         {
             var diagnosticWriter = ToListDiagnosticWriter.Create();
 
@@ -155,6 +154,7 @@ namespace Bicep.Core.Semantics
             var typeValidationDiagnostics = TypeManager.GetAllDiagnostics();
             diagnosticWriter.WriteMultiple(typeValidationDiagnostics);
             diagnosticWriter.WriteMultiple(EmitLimitationInfo.Diagnostics);
+            diagnosticWriter.WriteMultiple(ResourceMetadata.GetDiagnostics());
 
             return diagnosticWriter.GetDiagnostics();
         }
@@ -162,8 +162,7 @@ namespace Bicep.Core.Semantics
         /// <summary>
         /// Gets all the analyzer diagnostics unsorted.
         /// </summary>
-        /// <returns></returns>
-        public IReadOnlyList<IDiagnostic> GetAnalyzerDiagnostics(ConfigHelper? overrideConfig = default)
+        public IEnumerable<IDiagnostic> GetAnalyzerDiagnostics(ConfigHelper? overrideConfig = default)
         {
             var diagnostics = LinterAnalyzer.Analyze(this, overrideConfig);
 

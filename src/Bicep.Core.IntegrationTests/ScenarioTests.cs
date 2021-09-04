@@ -2357,6 +2357,32 @@ output secret string = secret
             result.Should().NotHaveAnyDiagnostics();
         }
 
+        [TestMethod]
+        // https://github.com/Azure/bicep/issues/4212
+        public void Test_Issue4212()
+        {
+            var result = CompilationHelper.Compile(
+                ("mod.bicep", @"
+output test string = 'asdf'
+"),
+                ("main.bicep", @"
+module mod 'mod.bicep' = {
+  name: 'mod'
+}
+
+resource res 'Microsoft.Network/virtualNetworks/subnets@2020-11-01' existing = {
+  name: 'abc/def'
+  parent: mod
+}
+
+output test string = res.id
+"));
+
+            result.Should().HaveDiagnostics(new[] {
+                ("BCP194", DiagnosticLevel.Error, "Invalid \"parent\" property value. Only expressions of type \"resource\" may be specified."),
+            });
+        }
+
         // https://github.com/Azure/bicep/issues/3558
         [TestMethod]
         public void Test_Issue3558()

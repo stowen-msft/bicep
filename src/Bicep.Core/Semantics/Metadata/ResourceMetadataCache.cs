@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using Bicep.Core.Syntax;
+using Bicep.Core.Diagnostics;
 
 namespace Bicep.Core.Semantics.Metadata
 {
@@ -21,7 +22,7 @@ namespace Bicep.Core.Semantics.Metadata
                 .ToImmutableDictionary(x => x.DeclaringResource));
         }
 
-        protected override ResourceMetadata? Calculate(SyntaxBase syntax)
+        protected override ResourceMetadata? Calculate(SyntaxBase syntax, IDiagnosticWriter diagnosticWriter)
         {
             switch (syntax)
             {
@@ -80,6 +81,10 @@ namespace Bicep.Core.Semantics.Metadata
                                 symbol.SafeGetBodyPropertyValue(LanguageConstants.ResourceScopePropertyName),
                                 symbol.DeclaringResource.IsExistingResource());
                         }
+
+                        var parentType = semanticModel.GetTypeInfo(referenceParentSyntax);
+                        diagnosticWriter.Write(syntax, x => x.ResourceParentIsNotResourceType());
+                        break;
                     }
                     else
                     {

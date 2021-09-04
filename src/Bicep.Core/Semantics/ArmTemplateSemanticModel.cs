@@ -121,7 +121,7 @@ namespace Bicep.Core.Semantics
                 visitor.Visit(outputTypeProperty.TypeReference.Type);
             }
 
-            return diagnosticWriter.GetDiagnostics().Count > 0;
+            return diagnosticWriter.GetDiagnostics().Any();
         }
 
         private static TypeSymbol GetType(TemplateInputParameter parameter)
